@@ -39,9 +39,8 @@ import wild.api.WildCommons;
 
 public class VanishManager {
 	
-	private static Set<Player> hiddenPlayers = Sets.newHashSet();
-	
-	
+	private static final Set<Player> hiddenPlayers = Sets.newHashSet();
+
 	public static void setHidden(Player subject, boolean hidden) {
 		if (hidden) {
 			if (hiddenPlayers.add(subject)) {
@@ -50,10 +49,11 @@ public class VanishManager {
 						other.hidePlayer(subject);
 					}
 				}
-				subject.setCollidable(false);
+
+				subject.spigot().setCollidesWithEntities(false);
 				WildCommons.Unsafe.setPreventEntitySpawning(subject, false);
 			}
-			
+
 		} else {
 			if (hiddenPlayers.remove(subject)) {
 				for (Player other : Bukkit.getOnlinePlayers()) {
@@ -61,7 +61,8 @@ public class VanishManager {
 						other.showPlayer(subject);
 					}
 				}
-				subject.setCollidable(true);
+
+				subject.spigot().setCollidesWithEntities(true);
 				WildCommons.Unsafe.setPreventEntitySpawning(subject, true);
 			}
 		}
