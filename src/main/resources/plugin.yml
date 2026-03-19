@@ -1,0 +1,5 @@
+name: SkyWars
+main: com.gmail.filoghost.skywars.SkyWars
+version: 1.0
+
+softdepend: [WildCommons, HolographicDisplays]
