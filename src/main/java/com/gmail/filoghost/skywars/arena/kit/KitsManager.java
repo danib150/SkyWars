@@ -127,8 +127,6 @@ public class KitsManager {
 				leggings = new KitItem(item, translation, position, false);
 			} else if (InventoryUtils.isBoots(item) && boots == null) {
 				boots = new KitItem(item, translation, position, false);
-			} else if (InventoryUtils.isShield(item) && shield == null) {
-				shield = new KitItem(item, translation, position, false);
 			} else {
 				items.add(new KitItem(item, translation, position, itemWrapper.isForceStacking()));
 			}

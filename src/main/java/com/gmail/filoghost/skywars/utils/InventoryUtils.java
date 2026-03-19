@@ -85,8 +85,5 @@ public class InventoryUtils {
 		}
 	}
 	
-	public static boolean isShield(ItemStack itemStack) {
-		return itemStack.getType() == Material.SHIELD;
-	}
 
 }

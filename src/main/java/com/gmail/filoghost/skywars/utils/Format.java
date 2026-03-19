@@ -37,6 +37,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
+import org.bukkit.potion.Potion;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -63,43 +64,52 @@ public class Format {
 			PotionEffectType.WITHER
 	);
 
-	
+
 	public static String formatKitItem(KitItem kitItem) {
 		StringBuilder output = new StringBuilder();
-		
+
 		output.append(Format.LORE_ITEM);
 		output.append(" ");
-		
 		output.append(kitItem.getNameTranslation());
+
 		ItemStack itemStack = kitItem.getStackedItem();
-		
-		if (itemStack.getItemMeta() instanceof PotionMeta) {
-			PotionMeta potionMeta = (PotionMeta) itemStack.getItemMeta();
-			List<String> pieces = Lists.newArrayList();
-			
-			pieces.add(formatEffectNoColor(Utils.convertToPotionEffect(potionMeta.getBasePotionData())));
-			
+
+		if (itemStack != null && itemStack.getItemMeta() instanceof PotionMeta potionMeta) {
+            List<String> pieces = Lists.newArrayList();
+
+			try {
+				Potion potion = Potion.fromItemStack(itemStack);
+				PotionEffect baseEffect = Utils.convertToPotionEffect(potion);
+
+                pieces.add(formatEffectNoColor(baseEffect));
+            } catch (Exception ignored) {
+				// item non interpretabile come pozione vanilla
+			}
+
+			// Effetti custom
 			for (PotionEffect effect : potionMeta.getCustomEffects()) {
 				pieces.add(formatEffectNoColor(effect));
 			}
-			
-			output.append(" di ");
-			output.append(StringUtils.join(pieces, ", "));
+
+			if (!pieces.isEmpty()) {
+				output.append(" di ");
+				output.append(StringUtils.join(pieces, ", "));
+			}
 		}
-		
+
 		if (itemStack.getAmount() > 1) {
 			output.append(" ");
 			output.append(Format.LORE_AMOUNT);
 			output.append(itemStack.getAmount());
 		}
-		
+
 		if (!itemStack.getEnchantments().isEmpty()) {
 			List<String> pieces = Lists.newArrayList();
-			
+
 			for (Entry<Enchantment, Integer> entry : itemStack.getEnchantments().entrySet()) {
 				pieces.add(Translation.of(entry.getKey()) + " " + UnitFormatter.getRoman(entry.getValue()));
 			}
-			
+
 			output.append(" ");
 			output.append(LORE_ENCHANT);
 			output.append(StringUtils.join(pieces, ", "));

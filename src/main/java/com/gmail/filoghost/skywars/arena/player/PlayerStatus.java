@@ -35,7 +35,6 @@ import com.gmail.filoghost.skywars.arena.kit.Kit;
 
 import lombok.Getter;
 import lombok.Setter;
-import wild.api.bridges.CosmeticsBridge;
 import wild.api.world.SpectatorAPI;
 
 public class PlayerStatus {
@@ -64,10 +63,8 @@ public class PlayerStatus {
 		VanishManager.setHidden(player, spectator);
 		if (spectator) {
 			SpectatorAPI.setSpectator(player);
-			CosmeticsBridge.updateCosmetics(player, CosmeticsBridge.Status.SPECTATOR);
 		} else {
 			SpectatorAPI.removeSpectator(player);
-			CosmeticsBridge.updateCosmetics(player, CosmeticsBridge.Status.GAME);
 		}
 	}
 	

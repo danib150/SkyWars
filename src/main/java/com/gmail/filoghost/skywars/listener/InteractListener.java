@@ -77,7 +77,7 @@ public class InteractListener implements Listener {
 					
 					if (eggType != null && arena.getSpawningManager().spawnMob(player, eggType, event.getClickedBlock(), event.getBlockFace())) {
 						event.setCancelled(true);
-						Utils.consumeOneItemInHand(player, event.getHand());
+						Utils.consumeOneItemInHand(player);
 						return;
 					}
 				}
@@ -140,7 +140,7 @@ public class InteractListener implements Listener {
 				if (arena != null) {
 					if (arena.getSpawningManager().throwFireball(player)) {
 						event.setCancelled(true);
-						Utils.consumeOneItemInHand(player, event.getHand());
+						Utils.consumeOneItemInHand(player);
 						return;
 					}
 				}
@@ -148,7 +148,7 @@ public class InteractListener implements Listener {
 			} else if (KillReward.isActivatorItem(event.getItem())) {
 				if (ArenasManager.isFightingPlayer(player)) {
 					event.setCancelled(true);
-					Utils.consumeOneItemInHand(player, event.getHand());
+					Utils.consumeOneItemInHand(player);
 					KillReward.giveRandomReward(player);
 					return;
 				}

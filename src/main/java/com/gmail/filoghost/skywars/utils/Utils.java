@@ -47,9 +47,10 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.SkullMeta;
-import org.bukkit.potion.PotionData;
+import org.bukkit.potion.Potion;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.potion.PotionType;
 import org.bukkit.projectiles.ProjectileSource;
 
 import com.gmail.filoghost.skywars.arena.Arena;
@@ -75,23 +76,16 @@ public class Utils {
 		return headItem;
 	}
 
-	public static void consumeOneItemInHand(Player player, EquipmentSlot hand) {
+	public static void consumeOneItemInHand(Player player) {
 		PlayerInventory inventory = player.getInventory();
+		ItemStack item = inventory.getItemInHand();
 
-		if (hand == EquipmentSlot.HAND) {
-			if (inventory.getItemInMainHand().getAmount() > 1) {
-				inventory.getItemInMainHand().setAmount(inventory.getItemInMainHand().getAmount() - 1);
-			} else {
-				inventory.setItemInMainHand(null);
-			}
-		} else if (hand == EquipmentSlot.OFF_HAND) {
-			if (inventory.getItemInOffHand().getAmount() > 1) {
-				inventory.getItemInOffHand().setAmount(inventory.getItemInOffHand().getAmount() - 1);
-			} else {
-				inventory.setItemInOffHand(null);
-			}
+		if (item == null) return;
+
+		if (item.getAmount() > 1) {
+			item.setAmount(item.getAmount() - 1);
 		} else {
-			throw new IllegalArgumentException("Not HAND or OFF_HAND: " + hand);
+			inventory.setItemInHand(null);
 		}
 	}
 
@@ -167,29 +161,42 @@ public class Utils {
 		roundedLocation.setZ(Math.round(roundedLocation.getZ() * 2.0) / 2.0);
 		return roundedLocation;
 	}
-	
-	public static PotionEffect convertToPotionEffect(PotionData data) {
-		PotionEffectType type = data.getType().getEffectType();
-		if (type == PotionEffectType.HEAL || type == PotionEffectType.HARM) {
-			return new PotionEffect(type, 1, data.isUpgraded() ? 1 : 0);
-		} else if (type == PotionEffectType.REGENERATION || type == PotionEffectType.POISON) {
-			if (data.isExtended()) {
-				return new PotionEffect(type, 1800, 0);
-			} else if (data.isUpgraded()) {
-				return new PotionEffect(type, 440, 1);
+
+	public static PotionEffect convertToPotionEffect(Potion potion) {
+		PotionType type = potion.getType();
+		PotionEffectType effectType = type.getEffectType();
+
+		if (effectType == null) {
+			return null;
+		}
+
+		boolean upgraded = potion.getLevel() > 1;
+		boolean extended = potion.hasExtendedDuration();
+
+		if (effectType == PotionEffectType.HEAL || effectType == PotionEffectType.HARM) {
+			return new PotionEffect(effectType, 1, upgraded ? 1 : 0);
+		} else if (effectType == PotionEffectType.REGENERATION || effectType == PotionEffectType.POISON) {
+			if (extended) {
+				return new PotionEffect(effectType, 1800, 0);
+			} else if (upgraded) {
+				return new PotionEffect(effectType, 440, 1);
 			} else {
-				return new PotionEffect(type, 900, 0);
+				return new PotionEffect(effectType, 900, 0);
 			}
-		} else if (type == PotionEffectType.NIGHT_VISION || type == PotionEffectType.INVISIBILITY || type == PotionEffectType.FIRE_RESISTANCE || type == PotionEffectType.WATER_BREATHING) {
-			return new PotionEffect(type, data.isExtended() ? 9600 : 3600, 0);
-		} else if (type == PotionEffectType.WEAKNESS || type == PotionEffectType.SLOW) {
-			return new PotionEffect(type, data.isExtended() ? 4800 : 1800, 0);
-		} else if (data.isExtended()) {
-			return new PotionEffect(type, 9600, 0);
-		} else if (data.isUpgraded()) {
-			return new PotionEffect(type, 1800, 1);
+		} else if (effectType == PotionEffectType.NIGHT_VISION
+				|| effectType == PotionEffectType.INVISIBILITY
+				|| effectType == PotionEffectType.FIRE_RESISTANCE
+				|| effectType == PotionEffectType.WATER_BREATHING) {
+			return new PotionEffect(effectType, extended ? 9600 : 3600, 0);
+		} else if (effectType == PotionEffectType.WEAKNESS
+				|| effectType == PotionEffectType.SLOW) {
+			return new PotionEffect(effectType, extended ? 4800 : 1800, 0);
+		} else if (extended) {
+			return new PotionEffect(effectType, 9600, 0);
+		} else if (upgraded) {
+			return new PotionEffect(effectType, 1800, 1);
 		} else {
-			return new PotionEffect(type, 3600, 0);
+			return new PotionEffect(effectType, 3600, 0);
 		}
 	}
 

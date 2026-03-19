@@ -36,8 +36,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Scoreboard;
-import org.bukkit.scoreboard.Team.Option;
-import org.bukkit.scoreboard.Team.OptionStatus;
 
 import com.gmail.filoghost.skywars.SkyWars;
 import com.gmail.filoghost.skywars.arena.player.Team;
@@ -109,7 +107,7 @@ public class ArenaScoreboard {
 				scoreboardTeam.setPrefix(team.getChatColor().toString());
 			}
 			scoreboardTeam.setCanSeeFriendlyInvisibles(true);
-			scoreboardTeam.setOption(Option.COLLISION_RULE, OptionStatus.NEVER);
+			//scoreboardTeam.setOption(Option.COLLISION_RULE, OptionStatus.NEVER); NON ESISTE IN 1.8.8
 		}
 		
 		killsLine = sidebar.setDynamicLine(index++, ""); // Così gli spettatori vedono righe vuote

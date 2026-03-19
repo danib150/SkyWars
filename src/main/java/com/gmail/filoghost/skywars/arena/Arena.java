@@ -327,7 +327,7 @@ public class Arena {
 		}
 		teleporterMenu.update();
 		player.sendMessage(SkyWars.PREFIX + ChatColor.GRAY + "Hai scelto il team " + team.getChatColor() + team.getNameSingular() + ChatColor.GRAY + ".");
-		EasySound.quickPlay(player, Sound.BLOCK_WOODEN_TRAPDOOR_CLOSE);
+		EasySound.quickPlay(player, Sound.WOOD_CLICK);
 	}
 	
 	
@@ -353,7 +353,7 @@ public class Arena {
 		
 		playerStatus.setSelectedKit(kit);
 		player.sendMessage(SkyWars.PREFIX + ChatColor.GRAY + "Hai scelto il kit " + Kit.NAME_COLOR + kit.getName() + ChatColor.GRAY + ".");
-		EasySound.quickPlay(player, Sound.BLOCK_WOODEN_TRAPDOOR_CLOSE);
+		EasySound.quickPlay(player, Sound.WOOD_CLICK);
 	}
 	
 	

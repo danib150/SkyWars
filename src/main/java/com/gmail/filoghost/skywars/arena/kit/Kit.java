@@ -81,7 +81,7 @@ public class Kit implements Comparable<Kit> {
 			inv.setBoots(boots.getStackedItem());
 		}
 		if (shield != null) {
-			inv.setItemInOffHand(shield.getStackedItem());
+			inv.setItemInHand(shield.getStackedItem());
 		}
 		
 		for (KitItem kitItem : items) {

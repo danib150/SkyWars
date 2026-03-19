@@ -33,8 +33,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
-import org.bukkit.scoreboard.Team.Option;
-import org.bukkit.scoreboard.Team.OptionStatus;
 
 import wild.api.WildConstants;
 import wild.api.sidebar.DynamicSidebarLine;
@@ -54,7 +52,7 @@ public class SpawnScoreboard {
 	public SpawnScoreboard() {
 		this.scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
 		this.noCollisionsTeam = scoreboard.registerNewTeam("noCollisions");
-		this.noCollisionsTeam.setOption(Option.COLLISION_RULE, OptionStatus.NEVER);
+		//this.noCollisionsTeam.setOption(Option.COLLISION_RULE, OptionStatus.NEVER);
 		this.noCollisionsTeam.setCanSeeFriendlyInvisibles(false);
 		
 		this.sidebarManager = new ScoreboardSidebarManager(scoreboard, SkyWars.SIDEBAR_TITLE);

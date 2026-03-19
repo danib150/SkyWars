@@ -77,9 +77,9 @@ public class ItemBuyableIcon extends Icon implements ClickHandler {
 	@Override
 	public void onClick(Player player) {
 		if (arena.getShopManager().tryBuyFromShop(player, price, reward.clone())) {
-			EasySound.quickPlay(player, Sound.ENTITY_EXPERIENCE_ORB_PICKUP);
+			EasySound.quickPlay(player, Sound.ORB_PICKUP);
 		} else {
-			EasySound.quickPlay(player, Sound.BLOCK_NOTE_BASS);
+			EasySound.quickPlay(player, Sound.NOTE_BASS);
 		}
 	}
 	

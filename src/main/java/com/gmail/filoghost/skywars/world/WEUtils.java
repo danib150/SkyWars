@@ -28,6 +28,7 @@
 */
 package com.gmail.filoghost.skywars.world;
 
+import com.sk89q.worldedit.MaxChangedBlocksException;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 
@@ -50,27 +51,18 @@ public class WEUtils {
 			long start = System.currentTimeMillis();
 			EditSession copySession = getSession(fromRegion.getWorld());
 			EditSession pasteSession = getSession(toWorld);
-			CuboidRegion copyRegion = new CuboidRegion(toWEVector(fromRegion.getMinCorner()), toWEVector(fromRegion.getMaxCorner()));
-			BlockArrayClipboard lazyCopy;
-			
-			try {
-				// Metodo più personalizzabile
-				boolean copyEntities = true;
-				boolean copyBiomes = false;
-				
-				WorldCopyClipboard faweClipboard = new WorldCopyClipboard(copySession, copyRegion, copyEntities, copyBiomes);
-				lazyCopy = new BlockArrayClipboard(copyRegion, faweClipboard);
-				lazyCopy.setOrigin(copyRegion.getMinimumPoint());
-			} catch (Throwable t) {
-				t.printStackTrace();
-				
-				// Metodo alternativo, con entità
-				lazyCopy = copySession.lazyCopy(copyRegion);
-			}
-			
+			CuboidRegion copyRegion = new CuboidRegion(
+					toWEVector(fromRegion.getMinCorner()),
+					toWEVector(fromRegion.getMaxCorner())
+			);
+
+			BlockArrayClipboard lazyCopy = new BlockArrayClipboard(copyRegion);
+			lazyCopy.setOrigin(copyRegion.getMinimumPoint());
+
 			Schematic schematic = new Schematic(lazyCopy);
-			boolean pasteAir = false;
-			schematic.paste(pasteSession, toWEVector(toPosition), pasteAir);
+			schematic.paste(pasteSession, toWEVector(toPosition), false);
+			pasteSession.flushQueue();
+
 			pasteSession.flushQueue();
 			long end = System.currentTimeMillis();
 			System.out.println("Time spent pasting arena " + arenaName + ": " + (end - start) + " ms");
@@ -85,9 +77,14 @@ public class WEUtils {
 			long start = System.currentTimeMillis();
 			EditSession deleteSession = getSession(region.getWorld());
 			CuboidRegion deleteRegion = new CuboidRegion(toWEVector(region.getMinCorner()), toWEVector(region.getMaxCorner()));
-			
-			deleteSession.setBlocks(deleteRegion, new BaseBlock(BlockID.AIR));
-			deleteSession.flushQueue();
+
+            try {
+                deleteSession.setBlocks(deleteRegion, new BaseBlock(BlockID.AIR));
+            } catch (MaxChangedBlocksException e) {
+				e.printStackTrace();
+                throw new RuntimeException(e);
+            }
+            deleteSession.flushQueue();
 			long end = System.currentTimeMillis();
 			System.out.println("Time spent deleting cage: " + (end - start) + " ms (is primary thread: " + Bukkit.isPrimaryThread() + ")");
 		});

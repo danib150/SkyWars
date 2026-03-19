@@ -332,7 +332,7 @@ public class ArenaCommand extends SubCommandFramework {
 		}
 		
 		player.teleport(new Location(world, x, y, z, yaw, pitch), TeleportCause.COMMAND);
-		EasySound.quickPlay(player, Sound.ENTITY_ENDERMEN_TELEPORT);
+		EasySound.quickPlay(player, Sound.ENDERMAN_TELEPORT);
 	}
 
 	

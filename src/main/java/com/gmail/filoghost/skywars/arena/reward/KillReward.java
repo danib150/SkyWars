@@ -102,8 +102,8 @@ public class KillReward {
 			
 			if (pseudoIndex <= 0) {
 				Bukkit.getScheduler().runTask(SkyWars.get(), () -> {
-					player.playSound(player.getLocation(), Sound.ENTITY_FIREWORK_BLAST, 1F, 1F);
-					player.playSound(player.getLocation(), Sound.ENTITY_FIREWORK_TWINKLE, 1F, 1F);
+					player.playSound(player.getLocation(), Sound.FIREWORK_BLAST, 1F, 1F);
+					player.playSound(player.getLocation(), Sound.FIREWORK_TWINKLE, 1F, 1F);
 					addSafe(player, reward.getItem());
 					player.updateInventory();
 					player.sendMessage(ChatColor.YELLOW + ">> " + ChatColor.GREEN + "Hai ricevuto " + Translation.of(reward.getItem().getType()) + " x" + reward.getItem().getAmount() + "!");
