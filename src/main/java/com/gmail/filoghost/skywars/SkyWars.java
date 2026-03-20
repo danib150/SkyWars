@@ -117,7 +117,7 @@ public class SkyWars extends JavaPlugin {
 		if (!checkDependancies()) {
 			return;
 		}
-		
+
 		bookTutorial = new BookTutorial(this, "Sky Wars");
 		
 		try {

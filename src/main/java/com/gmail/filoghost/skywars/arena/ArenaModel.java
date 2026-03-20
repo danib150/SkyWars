@@ -35,6 +35,7 @@ import java.util.Map.Entry;
 import java.util.Queue;
 import java.util.function.Consumer;
 
+import com.gmail.filoghost.skywars.world.utils.ArenaCopyUtils;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -48,7 +49,6 @@ import com.gmail.filoghost.skywars.settings.objects.ArenaConfig;
 import com.gmail.filoghost.skywars.settings.objects.LocationConfig;
 import com.gmail.filoghost.skywars.world.IntVector;
 import com.gmail.filoghost.skywars.world.Region;
-import com.gmail.filoghost.skywars.world.WEUtils;
 import com.google.common.collect.Lists;
 
 import lombok.AccessLevel;
@@ -154,13 +154,15 @@ public class ArenaModel {
 		}
 		
 		// Usa solo X e Z, la Y viene mantenuta uguale
-		WEUtils.copy(this.name, this.region, destinationWorld, new IntVector(minCornerX, this.region.getMinY(), minCornerZ), () -> {
+
+
+		ArenaCopyUtils.copy(this.name, this.region, destinationWorld, new IntVector(minCornerX, this.region.getMinY(), minCornerZ), () -> {
 			
 			IntVector cageMinCorner = new IntVector(clone.lobby.clone().add(0, -0.1, 0)).subtract(PregameCage.getSpawnDifferenceFromMinCorner());
 			IntVector cageMaxCorner = cageMinCorner.add(PregameCage.getRegion().getSize());
 			Region cageRegion = Region.fromMinMaxCorners(destinationWorld, cageMinCorner, cageMaxCorner);
-			
-			WEUtils.copy(this.name + "-lobby", PregameCage.getRegion(), destinationWorld, cageMinCorner, () -> {
+
+			ArenaCopyUtils.copy(this.name + "-lobby", PregameCage.getRegion(), destinationWorld, cageMinCorner, () -> {
 				onComplete.accept(new Arena(clone, cageRegion));
 			});
 		}); 

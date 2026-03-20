@@ -31,6 +31,7 @@ package com.gmail.filoghost.skywars.arena;
 import java.util.Collections;
 import java.util.List;
 
+import com.gmail.filoghost.skywars.world.utils.ArenaCopyUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Firework;
@@ -47,7 +48,6 @@ import com.gmail.filoghost.skywars.database.SQLManager;
 import com.gmail.filoghost.skywars.settings.MainSettings;
 import com.gmail.filoghost.skywars.timer.CountdownTimer;
 import com.gmail.filoghost.skywars.utils.Utils;
-import com.gmail.filoghost.skywars.world.WEUtils;
 import com.google.common.collect.Lists;
 
 import lombok.Getter;
@@ -231,9 +231,9 @@ public class GameloopManager {
 		
 		arena.scanInitialChests();
 		arena.refillChests();
-		
-		WEUtils.removeAllBlocks(arena.getCageRegion());
-		
+
+		ArenaCopyUtils.removeAllBlocks(arena.getCageRegion());
+
 		startTime = System.currentTimeMillis();
 		Countdowns.announceEndedCountdown(SkyWars.PREFIX, arena.getPlayers());
 		startCombatCountdown();

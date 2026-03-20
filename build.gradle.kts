@@ -47,7 +47,6 @@ repositories {
 }
 
 dependencies {
-    compileOnly(files("libs/WE.jar", "libs/FAWE.jar"))
     compileOnly("org.projectlombok:lombok:1.18.44")
     annotationProcessor("org.projectlombok:lombok:1.18.44")
     compileOnly("app.ashcon:sportpaper:1.8.8-R0.1-SNAPSHOT")
