@@ -67,8 +67,23 @@ public class GameloopManager {
 	@Getter private CountdownTimer combatCountdownTimer;
 	
 	@Getter private long startTime;
-	
-	
+
+	public void forceStart() {
+		if (arena.getArenaStatus() != ArenaStatus.LOBBY) {
+			return;
+		}
+
+		cancelLobbyCountdown();
+		finishLobbyCountdown();
+	}
+
+	private void finishNoWinner() {
+		arena.setArenaStatus(ArenaStatus.ENDING);
+		cancelCombatCountdown();
+		arena.broadcast(ChatColor.GRAY + "La partita è terminata senza vincitori.");
+		startWinCountdown();
+	}
+
 	public void checkWinners() {
 		if (arena.getArenaStatus() != ArenaStatus.COMBAT) {
 			Utils.reportAnomaly("checking winners in wrong arena status", this, arena.getArenaStatus());
@@ -90,10 +105,9 @@ public class GameloopManager {
 				}
 			}
 		}
-		
+
 		if (winnerTeam == null) {
-			Utils.reportAnomaly("no team playing", arena);
-			finishWinCountdown();
+			finishNoWinner();
 			return;
 		}
 		

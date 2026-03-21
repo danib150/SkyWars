@@ -101,7 +101,18 @@ public class SkywarsCommand extends SubCommandFramework {
 		arena.giveEquip(target, targetStatus);
 		sender.sendMessage(ChatColor.GREEN + "Impostato " + target + " come spettatore.");
 	}
-	
+
+	@SubCommand("start")
+	public void start(CommandSender sender, String label, String[] args) {
+		Player player = CommandValidate.getPlayerSender(sender);
+		player.sendMessage(ChatColor.GREEN + "Partita avviata");
+
+		Arena arena = ArenasManager.getArenaByPlayer(player);
+		arena.getGameloop().forceStart();
+
+		System.out.println("DEBUG");
+	}
+
 	@SubCommand("setSpawn")
 	public void setSpawn(CommandSender sender, String label, String[] args) {
 		Player player = CommandValidate.getPlayerSender(sender);

@@ -88,7 +88,7 @@ public class Arena {
 	@Getter private final Location lobby;
 	@Getter private final Region cageRegion;
 	private final Block sign;
-	@Getter private final int minPlayers;
+	@Getter @Setter private int minPlayers;
 	@Getter private final int maxPlayers;
 	@Getter private final int maxPlayersPerTeam;
 	@Getter private final boolean teamsMode;
